@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "979165924380",
+    "project_id": "budgetsmart-e4ce9",
+    "storage_bucket": "budgetsmart-e4ce9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979165924380:android:f0cf889f917442da73a3d9",
+        "android_client_info": {
+          "package_name": "com.example.budgetsmart2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "979165924380-60aurkh17d0djbv747mnnku9qa5ltujt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.budgetsmart2",
+            "certificate_hash": "085bf1a9c92f06b900606b7cca6daf88f258f6d5"
+          }
+        },
+        {
+          "client_id": "979165924380-l5r32nrlccsdf5dqe5bhbjp466q5rae2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeugv1l7UrOautbaYom2HUh9pJtOd_rPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "979165924380-l5r32nrlccsdf5dqe5bhbjp466q5rae2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Brand Colors -->
+    <color name="primary">#2E5BFF</color>
+    <color name="primary_dark">#1D45D9</color>
+    <color name="primary_light">#B3C5FF</color>
+    <color name="primary_transparent">#332E5BFF</color>
+
+    <!-- Accent/Status Colors -->
+    <color name="income">#34C759</color>
+    <color name="expense">#FF3B30</color>
+    <color name="food">#FF9500</color>
+
+    <!-- Background Colors -->
+    <color name="background_light">#F5F7FA</color>
+    <color name="background_dark">#1A1A1A</color>
+    <color name="background_variant">#f0f0f0</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#555555</color>
+    <color name="text_tertiary">#888888</color>
+
+    <!-- Card Background Colors -->
+    <color name="expense_light">#FFE0E0</color>
+    <color name="income_light">#E0F7FF</color>
+    <color name="food_light">#FFF6E0</color>
+
+    <!-- Neutral Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="divider">#dddddd</color>
+
+</resources>
