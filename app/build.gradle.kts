@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.services)
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -51,6 +53,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //viewModelScope
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
     // Circular Progress Bar
     implementation(libs.circularprogressbar)
 
@@ -63,4 +68,13 @@ dependencies {
     //Firebase
     implementation(platform(libs.firebase.bom)) // Bom
     implementation(libs.firebase.ui.auth) // Firebase AuthUI
+    implementation(libs.firebase.firestore) // fireStore
+
+    //Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+}
+
+kapt {
+    correctErrorTypes = true
 }
