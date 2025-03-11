@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Home Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.budgetsmart2.presentation.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_transactionsFragment"
+            app:destination="@id/transactionsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
+    <!-- Budget Fragment -->
+    <fragment
+        android:id="@+id/budgetFragment"
+        android:name="com.example.budgetsmart2.presentation.BudgetFragment"
+        android:label="Budget"
+        tools:layout="@layout/fragment_budget">
+        <action
+            android:id="@+id/action_budgetFragment_to_categoryManagementFragment"
+            app:destination="@id/categoryManagementFragment" />
+    </fragment>
+
+    <!-- Transactions Fragment -->
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="com.example.budgetsmart2.presentation.TransactionsFragment"
+        android:label="Transactions"
+        tools:layout="@layout/fragment_transactions" />
+
+    <!-- Reports Fragment -->
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.example.budgetsmart2.presentation.fragments.ReportsFragment"
+        android:label="Reports"
+        tools:layout="@layout/fragment_reports" />
+
+    <!-- Category Management Fragment -->
+    <fragment
+        android:id="@+id/categoryManagementFragment"
+        android:name="com.example.budgetsmart2.presentation.CategoryManagementFragment"
+        android:label="Category Management"
+        tools:layout="@layout/fragment_category_managment" />
+
+    <!-- Settings Fragment -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.budgetsmart2.presentation.SettingsFragment"
+        android:label="Category Management"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>

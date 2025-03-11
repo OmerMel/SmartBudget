@@ -8,4 +8,21 @@
         <item name="android:textColor">@color/white</item>
         <item name="rippleColor">@color/primary_transparent</item>
     </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Set box stroke and color -->
+        <item name="boxStrokeColor">@color/primary</item> <!-- Color when focused -->
+        <item name="boxStrokeWidth">1dp</item> <!-- Normal width -->
+        <item name="boxStrokeWidthFocused">2dp</item> <!-- Width when focused -->
+
+        <!-- Rounded corners -->
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+
+        <!-- Hint and label text color -->
+        <item name="hintTextColor">@color/text_secondary</item>
+    </style>
+
 </resources>

@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.budgetsmart2.domain.dataClasses.Category
 import com.example.budgetsmart2.domain.dataClasses.Transaction
 import com.example.budgetsmart2.domain.enums.TransactionType
-import com.example.budgetsmart2.domain.repositories.BudgetRepository
 import com.example.budgetsmart2.domain.repositories.CategoryRepository
 import com.example.budgetsmart2.domain.repositories.TransactionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -306,3 +305,4 @@ class ReportsViewModel @Inject constructor(
         val percentage: Double = 0.0 // Will be calculated later
     )
 }
+

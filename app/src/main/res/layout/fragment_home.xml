@@ -81,7 +81,7 @@
                         android:id="@+id/expenses_balance_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$8,245.00"
+                        android:text="$0.00"
                         android:textColor="@color/white"
                         android:textSize="32sp"
                         android:textStyle="bold"
@@ -103,7 +103,7 @@
                         android:id="@+id/incomes_balance_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$100.00"
+                        android:text="$0.00"
                         android:textColor="@color/white"
                         android:textSize="32sp"
                         android:textStyle="bold"
@@ -183,7 +183,7 @@
                         android:id="@+id/budget_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="75%"
+                        android:text="0%"
                         android:textColor="@color/primary"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -195,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="$1,870 of $2,500"
+                        android:text="$0.00 of $0.00"
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +209,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:progressDrawable="@drawable/budget_progress_drawable"
-                        android:progress="75"
+                        android:progress="0"
                         app:layout_constraintBottom_toBottomOf="@id/budget_progress"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/budget_progress"
@@ -244,83 +244,55 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/transactions_header" />
 
-            <!-- Transaction Item 1 -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/transaction_item1"
+            <!-- New RecyclerView for recent transactions -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recent_transactions_recycler_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transactions_header">
+                app:layout_constraintTop_toBottomOf="@id/transactions_header"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_transaction" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="16dp">
+            <!-- Empty state view -->
+            <LinearLayout
+                android:id="@+id/empty_transactions_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/transactions_header"
+                tools:visibility="visible">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/transaction_icon_bg1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cardBackgroundColor="@color/expense_light"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="No transactions yet"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="16sp" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_minus"
-                            android:tint="@color/expense"
-                            android:textSize="16sp" />
-                    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Add your first transaction\nusing the buttons above"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="14sp" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/transaction_title1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Grocery Store"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/transaction_amount1"
-                        app:layout_constraintStart_toEndOf="@id/transaction_icon_bg1"
-                        app:layout_constraintTop_toTopOf="@id/transaction_icon_bg1" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/transaction_date1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Today"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@id/transaction_icon_bg1"
-                        app:layout_constraintStart_toStartOf="@id/transaction_title1" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/transaction_amount1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-$65.40"
-                        android:textColor="@color/expense"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

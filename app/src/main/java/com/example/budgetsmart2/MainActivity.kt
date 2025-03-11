@@ -1,52 +1,70 @@
 package com.example.budgetsmart2
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.example.budgetsmart2.presentation.BudgetFragment
-import com.example.budgetsmart2.presentation.HomeFragment
-import com.example.budgetsmart2.presentation.ReportsFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.budgetsmart2.databinding.ActivityMainBinding
+import com.example.budgetsmart2.presentation.auth.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var homeFragment: HomeFragment
-    private lateinit var budgetFragment: BudgetFragment
-    private lateinit var reportsFragment: ReportsFragment
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        homeFragment = HomeFragment()
-        budgetFragment = BudgetFragment()
-        reportsFragment = ReportsFragment()
+        // Initialize view binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        findViews()
-        replaceFragment(homeFragment)
-        setupBottomNavigation()
-    }
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
-    private fun findViews() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
-    }
+        // Set up Navigation Controller with the fragment container
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.fragment_container) as NavHostFragment
+        navController = navHostFragment.navController
 
-    private fun setupBottomNavigation() {
-        bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.Home -> replaceFragment(homeFragment)
-                R.id.budgets -> replaceFragment(budgetFragment)
-                R.id.reports -> replaceFragment(reportsFragment)
-                else -> replaceFragment(homeFragment)
+        // Connect the bottom navigation with the navigation controller
+        binding.bottomNavigation.setupWithNavController(navController)
+
+        // Handle navigation UI state based on destination changes
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            // You can customize visibility of bottom navigation based on destination if needed
+            when (destination.id) {
+                R.id.homeFragment, R.id.budgetFragment, R.id.reportsFragment, R.id.categoryManagementFragment -> {
+                    // Show bottom navigation for main screens
+                    binding.bottomNavigation.visibility = android.view.View.VISIBLE
+                }
+                else -> {
+                    // Default to showing the bottom navigation
+                    binding.bottomNavigation.visibility = android.view.View.VISIBLE
+                }
             }
-            true
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.commit()
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+             startActivity(Intent(this, LoginActivity::class.java))
+             finish()
+        }
+    }
+
+    // Back button handling for nested fragments
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

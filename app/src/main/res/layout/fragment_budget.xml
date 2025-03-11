@@ -24,27 +24,31 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/edit_budgets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
             android:text="Edit"
             android:textColor="@color/primary"
             android:textSize="14sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
+        <!-- Main Content -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp">
+            android:layout_height="match_parent">
 
             <!-- Month Selector -->
             <com.google.android.material.card.MaterialCardView
@@ -70,6 +74,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="4dp"
                         android:text="◀"
                         android:textColor="@color/text_tertiary"
                         android:textSize="14sp"
@@ -95,6 +103,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="4dp"
                         android:text="▶"
                         android:textColor="@color/text_tertiary"
                         android:textSize="14sp"
@@ -131,7 +143,7 @@
                         android:layout_height="130dp"
                         app:cpb_background_progressbar_color="@color/background_light"
                         app:cpb_background_progressbar_width="10dp"
-                        app:cpb_progress="75"
+                        app:cpb_progress="0"
                         app:cpb_progressbar_color="@color/primary"
                         app:cpb_progressbar_width="10dp"
                         app:cpb_round_border="false"
@@ -144,7 +156,7 @@
                         android:id="@+id/budget_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="75%"
+                        android:text="0%"
                         android:textColor="@color/primary"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -190,7 +202,7 @@
                             android:id="@+id/spent_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$1,870"
+                            android:text="$0.00"
                             android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -212,13 +224,12 @@
                             android:id="@+id/remaining_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$630"
+                            android:text="$0.00"
                             android:textColor="@color/income"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/remaining_label" />
-
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -238,93 +249,71 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/budget_summary_card" />
 
-            <!-- Category Item 1 - Food & Dining -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/category_food"
+            <!-- Budget Categories RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/budget_categories_recycler_view"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/categories_header">
+                app:layout_constraintTop_toBottomOf="@id/categories_header"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_budget_category" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="16dp">
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/empty_state_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categories_header"
+                app:layout_constraintVertical_bias="0.3"
+                tools:visibility="visible">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/food_icon_bg"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cardBackgroundColor="@color/expense_light"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="No budgets found"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="🍔"
-                            android:textSize="16sp" />
-                    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Create your first budget by clicking the 'Edit' button"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/food_title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Food &amp; Dining"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/food_budget"
-                        app:layout_constraintStart_toEndOf="@id/food_icon_bg"
-                        app:layout_constraintTop_toTopOf="@id/food_icon_bg" />
-
-                    <TextView
-                        android:id="@+id/food_budget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$450/$500"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/food_title" />
-
-                    <ProgressBar
-                        android:id="@+id/food_progress"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_width="0dp"
-                        android:layout_height="10dp"
-                        android:layout_marginTop="8dp"
-                        android:progress="90"
-                        android:progressDrawable="@drawable/budget_progress_drawable"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/food_title"
-                        app:layout_constraintTop_toBottomOf="@id/food_title" />
-
-                    <TextView
-                        android:id="@+id/food_percentage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="90%"
-                        android:textColor="@color/expense"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/food_progress" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+
+        <!-- Loading Progress -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

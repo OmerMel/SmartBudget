@@ -24,16 +24,16 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
+        <!-- Main Content -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp">
+            android:layout_height="match_parent">
 
             <!-- Month Selector -->
             <com.google.android.material.card.MaterialCardView
@@ -54,15 +54,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/month_previous"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:contentDescription="Previous month"
+                        android:focusable="true"
                         android:src="@drawable/ic_left_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_tertiary" />
 
                     <TextView
                         android:id="@+id/month_display"
@@ -77,15 +82,20 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/month_next"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:contentDescription="Next month"
+                        android:focusable="true"
                         android:src="@drawable/ic_right_arrow"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_tertiary" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -94,7 +104,7 @@
                 android:id="@+id/filter_chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/month_selector"
@@ -136,160 +146,72 @@
                     app:chipStrokeWidth="1dp" />
             </com.google.android.material.chip.ChipGroup>
 
-            <!-- Transaction List -->
-            <!-- Transaction Item 1 -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/transaction_item1"
+            <!-- Transactions RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactions_recycler_view"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                android:layout_marginBottom="16dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingTop="4dp"
+                android:paddingBottom="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/filter_chips">
+                app:layout_constraintTop_toBottomOf="@id/filter_chips"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_transaction" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="16dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/transaction_icon_bg1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cardBackgroundColor="@color/expense_light"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_minus"
-                            android:tint="@color/expense"/>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:id="@+id/transaction_title1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Grocery Store"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/transaction_amount1"
-                        app:layout_constraintStart_toEndOf="@id/transaction_icon_bg1"
-                        app:layout_constraintTop_toTopOf="@id/transaction_icon_bg1" />
-
-                    <TextView
-                        android:id="@+id/transaction_date1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Today at 2:34 PM"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@id/transaction_icon_bg1"
-                        app:layout_constraintStart_toStartOf="@id/transaction_title1" />
-
-                    <TextView
-                        android:id="@+id/transaction_amount1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-$65.40"
-                        android:textColor="@color/expense"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Transaction Item 2 -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/transaction_item2"
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/empty_state_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_item1">
+                app:layout_constraintTop_toBottomOf="@id/filter_chips"
+                app:layout_constraintVertical_bias="0.3"
+                tools:visibility="visible">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="16dp">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/transaction_icon_bg2"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cardBackgroundColor="@color/income_light"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="No transactions found"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_plus"
-                            android:tint="@color/income"/>
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:id="@+id/transaction_title2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Salary Deposit"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/transaction_amount2"
-                        app:layout_constraintStart_toEndOf="@id/transaction_icon_bg2"
-                        app:layout_constraintTop_toTopOf="@id/transaction_icon_bg2" />
-
-                    <TextView
-                        android:id="@+id/transaction_date2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Yesterday at 9:15 AM"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@id/transaction_icon_bg2"
-                        app:layout_constraintStart_toStartOf="@id/transaction_title2" />
-
-                    <TextView
-                        android:id="@+id/transaction_amount2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+$2,450.00"
-                        android:textColor="@color/income"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Add your first transaction using the + button"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
+        <!-- Loading Progress -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
