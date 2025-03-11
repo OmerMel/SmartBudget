@@ -29,6 +29,7 @@
             android:layout_height="30dp"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_profile"
             android:background="@color/background_variant"
             app:civ_border_color="@color/divider"
             app:civ_border_width="1dp" />

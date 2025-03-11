@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.budgetsmart2.R
 import com.example.budgetsmart2.databinding.FragmentHomeBinding
 import com.example.budgetsmart2.domain.dataClasses.TransactionWithCategory
@@ -18,6 +19,7 @@ import com.example.budgetsmart2.presentation.dialogs.AddTransactionDialog
 import com.example.budgetsmart2.presentation.viewModels.HomeViewModel
 import com.example.budgetsmart2.utils.CurrencyFormatter
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
 import java.util.*
@@ -59,6 +61,7 @@ class HomeFragment : Fragment() {
         // Initialize UI components
         setupRecyclerView()
         setupClickListeners()
+        setupProfileImage()
 
         // Initialize ViewModel with current user ID
         FirebaseAuth.getInstance().currentUser?.let { user ->
@@ -110,6 +113,35 @@ class HomeFragment : Fragment() {
             profileImage.setOnClickListener {
                 navigateToSettings()
             }
+        }
+    }
+
+    /**
+     * Set up profile picture for top left user icon
+     */
+    private fun setupProfileImage() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        if (currentUser != null) {
+            // Check if user is signed in with Google
+            val isGoogleSignIn = currentUser.providerData.any {
+                it.providerId == GoogleAuthProvider.PROVIDER_ID
+            }
+
+            if (isGoogleSignIn && currentUser.photoUrl != null) {
+                // Load Google profile image
+                Glide.with(requireContext())
+                    .load(currentUser.photoUrl)
+                    .placeholder(R.drawable.ic_profile)
+                    .error(R.drawable.ic_profile)
+                    .into(binding.profileImage)
+            } else {
+                // Load default icon for email/password users
+                binding.profileImage.setImageResource(R.drawable.ic_profile)
+            }
+        } else {
+            // Fallback in case user is not logged in (shouldn't happen)
+            binding.profileImage.setImageResource(R.drawable.ic_profile)
         }
     }
 
