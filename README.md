@@ -40,7 +40,7 @@ BudgetSmart is a comprehensive Android application designed to help users easily
 
 ## Screenshots
 
-[Add screenshots of your app's key screens]
+<a href="https://ibb.co/DHm7B2nV"><img src="https://i.ibb.co/DHm7B2nV/Whats-App-Image-2025-03-11-at-21-04-24.jpg" alt="Whats-App-Image-2025-03-11-at-21-04-24" border="0"></a>
 
 ## Getting Started
 
@@ -101,24 +101,6 @@ com.example.budgetsmart2/
     ├── fragments/
     └── viewModels/
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-
-Your Name - youremail@example.com
-
-Project Link: [https://github.com/yourusername/BudgetSmart](https://github.com/yourusername/BudgetSmart)
 
 ## Acknowledgements
 
