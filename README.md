@@ -38,10 +38,6 @@ BudgetSmart is a comprehensive Android application designed to help users easily
 - **UI**: Material Design Components
 - **Charting**: MPAndroidChart
 
-## Screenshots
-
-<a href="https://ibb.co/DHm7B2nV"><img src="https://i.ibb.co/NdfL0BzV/Whats-App-Image-2025-03-11-at-21-04-24.jpg" alt="Whats-App-Image-2025-03-11-at-21-04-24" border="0"></a>
-
 ## Getting Started
 
 ### Prerequisites
