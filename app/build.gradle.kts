@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.services)
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -49,9 +50,14 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //RecycleView
+    implementation(libs.androidx.recyclerview)
 
     //viewModelScope
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -69,6 +75,9 @@ dependencies {
     implementation(platform(libs.firebase.bom)) // Bom
     implementation(libs.firebase.ui.auth) // Firebase AuthUI
     implementation(libs.firebase.firestore) // fireStore
+
+    // Google Play services
+    implementation(libs.play.services.auth)
 
     //Hilt
     implementation(libs.hilt.android)
