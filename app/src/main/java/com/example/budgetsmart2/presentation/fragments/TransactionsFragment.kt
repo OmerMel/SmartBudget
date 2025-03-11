@@ -1,4 +1,4 @@
-package com.example.budgetsmart2.presentation
+package com.example.budgetsmart2.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.budgetsmart2.R
 import com.example.budgetsmart2.databinding.FragmentTransactionsBinding
 import com.example.budgetsmart2.domain.dataClasses.TransactionWithCategory
-import com.example.budgetsmart2.domain.enums.TransactionType
 import com.example.budgetsmart2.presentation.adapters.TransactionAdapter
-import com.example.budgetsmart2.presentation.dialogs.AddTransactionDialog
 import com.example.budgetsmart2.presentation.dialogs.TransactionDetailsDialog
 import com.example.budgetsmart2.presentation.viewModels.TransactionsViewModel
 import com.google.android.material.chip.Chip

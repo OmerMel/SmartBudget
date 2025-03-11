@@ -8,7 +8,7 @@
     <!-- Home Fragment -->
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.budgetsmart2.presentation.HomeFragment"
+        android:name="com.example.budgetsmart2.presentation.fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
@@ -22,7 +22,7 @@
     <!-- Budget Fragment -->
     <fragment
         android:id="@+id/budgetFragment"
-        android:name="com.example.budgetsmart2.presentation.BudgetFragment"
+        android:name="com.example.budgetsmart2.presentation.fragments.BudgetFragment"
         android:label="Budget"
         tools:layout="@layout/fragment_budget">
         <action
@@ -33,7 +33,7 @@
     <!-- Transactions Fragment -->
     <fragment
         android:id="@+id/transactionsFragment"
-        android:name="com.example.budgetsmart2.presentation.TransactionsFragment"
+        android:name="com.example.budgetsmart2.presentation.fragments.TransactionsFragment"
         android:label="Transactions"
         tools:layout="@layout/fragment_transactions" />
 
@@ -47,14 +47,14 @@
     <!-- Category Management Fragment -->
     <fragment
         android:id="@+id/categoryManagementFragment"
-        android:name="com.example.budgetsmart2.presentation.CategoryManagementFragment"
+        android:name="com.example.budgetsmart2.presentation.fragments.CategoryManagementFragment"
         android:label="Category Management"
         tools:layout="@layout/fragment_category_managment" />
 
     <!-- Settings Fragment -->
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.budgetsmart2.presentation.SettingsFragment"
+        android:name="com.example.budgetsmart2.presentation.fragments.SettingsFragment"
         android:label="Category Management"
         tools:layout="@layout/fragment_settings" />
 

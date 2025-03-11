@@ -1,16 +1,13 @@
 package com.example.budgetsmart2.presentation.fragments
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.budgetsmart2.R
@@ -45,9 +42,6 @@ class ReportsFragment : Fragment() {
 
     // ViewModel instance using Hilt dependency injection
     private val viewModel: ReportsViewModel by viewModels()
-
-    // Currency formatter
-    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     // Time periods for dropdown
     private val timePeriods = arrayOf(

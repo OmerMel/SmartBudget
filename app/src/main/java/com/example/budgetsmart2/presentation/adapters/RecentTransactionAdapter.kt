@@ -9,7 +9,7 @@ import com.example.budgetsmart2.R
 import com.example.budgetsmart2.databinding.ItemTransactionBinding
 import com.example.budgetsmart2.domain.dataClasses.TransactionWithCategory
 import com.example.budgetsmart2.domain.enums.TransactionType
-import java.text.NumberFormat
+import com.example.budgetsmart2.utils.CurrencyFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,9 +20,6 @@ import java.util.*
 class RecentTransactionAdapter(
     private val onItemClick: (TransactionWithCategory) -> Unit
 ) : ListAdapter<TransactionWithCategory, RecentTransactionAdapter.TransactionViewHolder>(TransactionDiffCallback()) {
-
-    // Currency formatter for displaying monetary values
-    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     // Date formatter for displaying transaction dates
     private val dateFormatter = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
@@ -85,9 +82,9 @@ class RecentTransactionAdapter(
                 // Format amount based on transaction type
                 val amount = item.transaction.amount
                 val formattedAmount = if (item.transaction.type == TransactionType.EXPENSE) {
-                    "-${currencyFormatter.format(amount)}"
+                    CurrencyFormatter.formatWithSign(itemView.context, -amount)
                 } else {
-                    "+${currencyFormatter.format(amount)}"
+                    CurrencyFormatter.formatWithSign(itemView.context, amount, true)
                 }
                 transactionAmount1.text = formattedAmount
 

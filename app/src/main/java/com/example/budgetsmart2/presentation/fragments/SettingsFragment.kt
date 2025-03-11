@@ -1,4 +1,4 @@
-package com.example.budgetsmart2.presentation
+package com.example.budgetsmart2.presentation.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment
 import com.example.budgetsmart2.R
 import com.example.budgetsmart2.databinding.FragmentSettingsBinding
 import com.example.budgetsmart2.presentation.auth.LoginActivity
+import com.example.budgetsmart2.utils.CurrencyHelper
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +25,7 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
     private var currentUser: FirebaseUser? = null
 
     override fun onCreateView(
@@ -37,8 +40,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize Firebase Auth
+        // Initialize Firebase services
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
         currentUser = auth.currentUser
 
         // Set up UI elements
@@ -58,12 +62,41 @@ class SettingsFragment : Fragment() {
         binding.changePasswordContainer.visibility = if (isEmailPasswordUser) View.VISIBLE else View.GONE
         binding.passwordDivider.visibility = if (isEmailPasswordUser) View.VISIBLE else View.GONE
 
-        // Show app version
+        // Show app version - using package info instead of BuildConfig
         try {
             val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
             binding.versionValue.text = packageInfo.versionName
         } catch (e: Exception) {
             binding.versionValue.text = "1.0.0"  // Fallback version
+        }
+
+        // Load current currency
+        val currencyCode = CurrencyHelper.getUserCurrencyCode(requireContext())
+        binding.currencyValue.text = CurrencyHelper.getCurrencyDisplayText(currencyCode)
+
+        // Load user data from Firestore to get currency if available
+        loadUserData()
+    }
+
+    private fun loadUserData() {
+        currentUser?.let { user ->
+            firestore.collection("users").document(user.uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val defaultCurrency = document.getString("defaultCurrency")
+                        if (!defaultCurrency.isNullOrEmpty()) {
+                            // Update local preference
+                            CurrencyHelper.saveUserCurrencyCode(requireContext(), defaultCurrency)
+
+                            // Update UI
+                            binding.currencyValue.text = CurrencyHelper.getCurrencyDisplayText(defaultCurrency)
+                        }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Handle error silently
+                }
         }
     }
 
@@ -85,31 +118,65 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showCurrencyPicker() {
-        val currencies = arrayOf("USD - US Dollar", "EUR - Euro", "GBP - British Pound", "JPY - Japanese Yen", "ILS - Israeli New Shekel")
+        val currencies = CurrencyHelper.SUPPORTED_CURRENCIES
+        val currencyNames = currencies.map { "${it.code} - ${it.name}" }.toTypedArray()
+
+        // Get current currency code
+        val currentCurrencyCode = CurrencyHelper.getUserCurrencyCode(requireContext())
+        val currentIndex = CurrencyHelper.getCurrencyIndex(currentCurrencyCode)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Select Currency")
-            .setSingleChoiceItems(currencies, 0) { dialog, which ->
-                binding.currencyValue.text = currencies[which]
-                Toast.makeText(context, "Currency feature will be implemented later", Toast.LENGTH_SHORT).show()
+            .setSingleChoiceItems(currencyNames, currentIndex) { dialog, which ->
+                val selectedCurrency = currencies[which]
+
+                // Update UI immediately
+                binding.currencyValue.text = currencyNames[which]
+
+                // Save locally
+                CurrencyHelper.saveUserCurrencyCode(requireContext(), selectedCurrency.code)
+
+                // Update in Firestore
+                updateUserCurrency(selectedCurrency.code)
+
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
+    private fun updateUserCurrency(currencyCode: String) {
+        currentUser?.let { user ->
+            firestore.collection("users").document(user.uid)
+                .update("defaultCurrency", currencyCode)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Currency updated", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    // If the user document doesn't exist yet, create it
+                    val userData = hashMapOf(
+                        "defaultCurrency" to currencyCode,
+                        "id" to user.uid
+                    )
+
+                    firestore.collection("users").document(user.uid)
+                        .set(userData)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Currency updated", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { error ->
+                            Toast.makeText(context, "Failed to update currency: ${error.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+        }
+    }
+
     private fun showChangePasswordDialog() {
         // Create dialog with old password and new password fields
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_change_password, null)
-        val oldPasswordEditText = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(
-            R.id.old_password_input
-        )
-        val newPasswordEditText = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(
-            R.id.new_password_input
-        )
-        val confirmPasswordEditText = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(
-            R.id.confirm_password_input
-        )
+        val oldPasswordEditText = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.old_password_input)
+        val newPasswordEditText = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.new_password_input)
+        val confirmPasswordEditText = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.confirm_password_input)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Change Password")

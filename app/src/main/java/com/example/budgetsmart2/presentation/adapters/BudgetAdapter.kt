@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.budgetsmart2.R
 import com.example.budgetsmart2.databinding.ItemBudgetCategoryBinding
 import com.example.budgetsmart2.domain.dataClasses.BudgetStatus
+import com.example.budgetsmart2.utils.CurrencyFormatter
 import java.text.NumberFormat
 import java.util.*
 
@@ -19,9 +20,6 @@ import java.util.*
 class BudgetAdapter(
     private val onItemClick: (BudgetStatus) -> Unit
 ) : ListAdapter<BudgetStatus, BudgetAdapter.BudgetViewHolder>(BudgetDiffCallback()) {
-
-    // Currency formatter for displaying monetary values
-    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BudgetViewHolder {
         val binding = ItemBudgetCategoryBinding.inflate(
@@ -80,8 +78,8 @@ class BudgetAdapter(
                 )
 
                 // Set budget amount
-                val spent = currencyFormatter.format(item.spent)
-                val budget = currencyFormatter.format(item.budget.amount)
+                val spent = CurrencyFormatter.format(itemView.context, item.spent)
+                val budget = CurrencyFormatter.format(itemView.context, item.budget.amount)
                 foodBudget.text = "$spent/$budget"
 
                 // Set category icon

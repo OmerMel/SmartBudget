@@ -1,4 +1,4 @@
-package com.example.budgetsmart2.presentation
+package com.example.budgetsmart2.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +16,7 @@ import com.example.budgetsmart2.domain.enums.TransactionType
 import com.example.budgetsmart2.presentation.adapters.RecentTransactionAdapter
 import com.example.budgetsmart2.presentation.dialogs.AddTransactionDialog
 import com.example.budgetsmart2.presentation.viewModels.HomeViewModel
+import com.example.budgetsmart2.utils.CurrencyFormatter
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
@@ -41,9 +42,6 @@ class HomeFragment : Fragment() {
 
     // Recent transactions adapter
     private lateinit var transactionAdapter: RecentTransactionAdapter
-
-    // Currency formatter
-    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -150,14 +148,14 @@ class HomeFragment : Fragment() {
     private fun updateFinancialSummary(summary: com.example.budgetsmart2.domain.dataClasses.FinancialSummary) {
         binding.apply {
             // Update expense amount
-            expensesBalanceAmount.text = currencyFormatter.format(summary.totalExpenses)
+            expensesBalanceAmount.text = CurrencyFormatter.format(requireContext(), summary.totalExpenses)
 
             // Update income amount
-            incomesBalanceAmount.text = currencyFormatter.format(summary.totalIncome)
+            incomesBalanceAmount.text = CurrencyFormatter.format(requireContext(), summary.totalIncome)
 
             // Update budget progress
             budgetPercentage.text = "${summary.budgetUsedPercentage.toInt()}%"
-            budgetProgress.text = "${currencyFormatter.format(summary.totalExpenses)} of ${currencyFormatter.format(summary.monthlyBudget)}"
+            budgetProgress.text = "${CurrencyFormatter.format(requireContext(), summary.totalExpenses)} of ${CurrencyFormatter.format(requireContext(), summary.monthlyBudget)}"
             budgetProgressBar.progress = summary.budgetUsedPercentage.toInt()
         }
     }

@@ -1,4 +1,4 @@
-package com.example.budgetsmart2.presentation
+package com.example.budgetsmart2.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

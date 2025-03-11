@@ -1,4 +1,4 @@
-package com.example.budgetsmart2.presentation
+package com.example.budgetsmart2.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import com.example.budgetsmart2.domain.dataClasses.BudgetStatus
 import com.example.budgetsmart2.presentation.adapters.BudgetAdapter
 import com.example.budgetsmart2.presentation.dialogs.AddEditBudgetDialog
 import com.example.budgetsmart2.presentation.viewModels.BudgetViewModel
+import com.example.budgetsmart2.utils.CurrencyFormatter
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
@@ -38,9 +39,6 @@ class BudgetFragment : Fragment() {
 
     // Budget adapter
     private lateinit var budgetAdapter: BudgetAdapter
-
-    // Currency formatter
-    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -130,14 +128,14 @@ class BudgetFragment : Fragment() {
             binding.apply {
                 // Update remaining value in budget summary card
                 val remaining = viewModel.totalRemaining.value ?: 0.0
-                remainingValue.text = currencyFormatter.format(remaining)
+                remainingValue.text = CurrencyFormatter.format(requireContext(), remaining)
             }
         }
 
         viewModel.totalSpent.observe(viewLifecycleOwner) { totalSpent ->
             binding.apply {
                 // Update spent value in budget summary card
-                spentValue.text = currencyFormatter.format(totalSpent)
+                spentValue.text = CurrencyFormatter.format(requireContext(), totalSpent)
             }
         }
 
