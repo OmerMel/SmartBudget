@@ -6,5 +6,6 @@ data class FinancialSummary(
     val totalExpenses: Double = 0.0,
     val balance: Double = 0.0,
     val monthlyBudget: Double = 0.0,
-    val budgetUsedPercentage: Double = 0.0
+    val budgetUsedPercentage: Double = 0.0,
+    val budgetedExpenses: Double = 0.0
 )
