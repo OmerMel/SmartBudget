@@ -15,13 +15,5 @@ data class Budget(
         Calendar.getInstance().get(Calendar.MONTH),
         Calendar.getInstance().get(Calendar.YEAR),
         "")
-
-    // Helper function to check if a date falls within this budget's month
-    fun isWithinBudgetPeriod(date: Date): Boolean {
-        val cal = Calendar.getInstance()
-        cal.time = date
-        return cal.get(Calendar.MONTH) == month &&
-                cal.get(Calendar.YEAR) == year
-    }
 }
 

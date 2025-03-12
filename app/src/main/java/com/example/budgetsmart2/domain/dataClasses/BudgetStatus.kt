@@ -7,6 +7,4 @@ data class BudgetStatus(
     val spent: Double,
     val remaining: Double,
     val percentage: Double
-) {
-    val isOverBudget: Boolean get() = spent > budget.amount
-}
+)
