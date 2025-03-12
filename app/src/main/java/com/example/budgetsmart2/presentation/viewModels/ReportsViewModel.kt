@@ -71,7 +71,6 @@ class ReportsViewModel @Inject constructor(
                 when (currentReportType) {
                     ReportType.EXPENSES -> loadExpenseReports()
                     ReportType.INCOME -> loadIncomeReports()
-                    ReportType.ALL -> loadAllTransactionReports()
                 }
             } catch (e: Exception) {
                 _error.value = "Failed to load report data: ${e.message}"
@@ -107,22 +106,6 @@ class ReportsViewModel @Inject constructor(
         // Get all transactions within the date range
         val transactions = getAllTransactionsInDateRange(startDate, endDate)
             .filter { it.type == TransactionType.INCOME }
-
-        // Get all categories
-        val categories = categoryRepository.getCategories(userId).associateBy { it.id }
-
-        loadMonthlyData(transactions)
-        loadCategoryData(transactions, categories)
-    }
-
-    /**
-     * Load all transaction reports
-     */
-    private suspend fun loadAllTransactionReports() {
-        val (startDate, endDate) = getDateRangeForPeriod(currentTimePeriod)
-
-        // Get all transactions within the date range
-        val transactions = getAllTransactionsInDateRange(startDate, endDate)
 
         // Get all categories
         val categories = categoryRepository.getCategories(userId).associateBy { it.id }
@@ -262,8 +245,7 @@ class ReportsViewModel @Inject constructor(
      */
     enum class ReportType {
         EXPENSES,
-        INCOME,
-        ALL
+        INCOME
     }
 
     /**

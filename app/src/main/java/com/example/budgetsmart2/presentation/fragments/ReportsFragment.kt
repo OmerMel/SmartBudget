@@ -51,12 +51,6 @@ class ReportsFragment : Fragment() {
         "Last Year"
     )
 
-    private val STORAGE_PERMISSION_CODE = 101
-    private val REQUIRED_PERMISSIONS = arrayOf(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -157,11 +151,6 @@ class ReportsFragment : Fragment() {
             toggleIncome.setOnClickListener {
                 updateToggleState(ReportsViewModel.ReportType.INCOME)
             }
-
-            // All toggle
-            toggleAll.setOnClickListener {
-                updateToggleState(ReportsViewModel.ReportType.ALL)
-            }
         }
     }
 
@@ -170,37 +159,37 @@ class ReportsFragment : Fragment() {
      */
     private fun updateToggleState(reportType: ReportsViewModel.ReportType) {
         binding.apply {
-            // Reset all toggles
-            toggleExpenses.background = null
-            toggleIncome.background = null
-            toggleAll.background = null
+            // Reset both toggles to default state
+            toggleExpenses.setCardBackgroundColor(resources.getColor(R.color.background_variant, null))
+            toggleIncome.setCardBackgroundColor(resources.getColor(R.color.background_variant, null))
 
             toggleExpensesText.setTextColor(resources.getColor(R.color.text_secondary, null))
-            toggleIncome.setTextColor(resources.getColor(R.color.text_secondary, null))
-            toggleAll.setTextColor(resources.getColor(R.color.text_secondary, null))
+            toggleIncomeText.setTextColor(resources.getColor(R.color.text_secondary, null))
 
             // Update selected toggle
             when (reportType) {
                 ReportsViewModel.ReportType.EXPENSES -> {
-                    toggleExpenses.background = resources.getDrawable(R.drawable.toggle_selected_bg, null)
+                    toggleExpenses.setCardBackgroundColor(resources.getColor(R.color.primary, null))
                     toggleExpensesText.setTextColor(resources.getColor(R.color.white, null))
                     chartTitle.text = "Monthly Expenses"
                 }
                 ReportsViewModel.ReportType.INCOME -> {
-                    toggleIncome.background = resources.getDrawable(R.drawable.toggle_selected_bg, null)
-                    toggleIncome.setTextColor(resources.getColor(R.color.white, null))
+                    toggleIncome.setCardBackgroundColor(resources.getColor(R.color.primary, null))
+                    toggleIncomeText.setTextColor(resources.getColor(R.color.white, null))
                     chartTitle.text = "Monthly Income"
                 }
-                ReportsViewModel.ReportType.ALL -> {
-                    toggleAll.background = resources.getDrawable(R.drawable.toggle_selected_bg, null)
-                    toggleAll.setTextColor(resources.getColor(R.color.white, null))
-                    chartTitle.text = "Monthly Transactions"
+                else -> {
+                    // Default to expenses if somehow an invalid type is passed
+                    toggleExpenses.setCardBackgroundColor(resources.getColor(R.color.primary, null))
+                    toggleExpensesText.setTextColor(resources.getColor(R.color.white, null))
+                    chartTitle.text = "Monthly Expenses"
                 }
             }
 
             // Update report type in ViewModel
             viewModel.setReportType(reportType)
         }
+
     }
 
     /**
