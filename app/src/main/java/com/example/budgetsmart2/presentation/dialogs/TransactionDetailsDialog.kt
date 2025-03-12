@@ -143,11 +143,11 @@ class TransactionDetailsDialog : DialogFragment() {
      */
     private fun setupButtons() {
         binding.apply {
-            // Edit button
-            editButton.setOnClickListener {
-                onActionCallback?.invoke(Action.EDIT, transaction.transaction)
-                dismiss()
-            }
+//            // Edit button
+//            editButton.setOnClickListener {
+//                onActionCallback?.invoke(Action.EDIT, transaction.transaction)
+//                dismiss()
+//            }
 
             // Delete button
             deleteButton.setOnClickListener {
