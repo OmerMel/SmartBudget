@@ -196,13 +196,13 @@ class HomeFragment : Fragment() {
     private fun updateRecentTransactions(transactions: List<TransactionWithCategory>) {
         if (transactions.isEmpty()) {
             // Handle empty state
-            binding.emptyTransactionsView?.visibility = View.VISIBLE
+            binding.emptyTransactionsView.visibility = View.VISIBLE
             binding.recentTransactionsRecyclerView.visibility = View.GONE
             return
         }
 
         // Show RecyclerView and hide empty state
-        binding.emptyTransactionsView?.visibility = View.GONE
+        binding.emptyTransactionsView.visibility = View.GONE
         binding.recentTransactionsRecyclerView.visibility = View.VISIBLE
 
         // Submit the list to adapter - DiffUtil will handle the updates efficiently
