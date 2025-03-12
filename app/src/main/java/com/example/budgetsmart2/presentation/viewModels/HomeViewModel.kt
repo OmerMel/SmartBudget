@@ -11,7 +11,6 @@ import com.example.budgetsmart2.domain.enums.TransactionType
 import com.example.budgetsmart2.domain.repositories.BudgetRepository
 import com.example.budgetsmart2.domain.repositories.CategoryRepository
 import com.example.budgetsmart2.domain.repositories.TransactionRepository
-import com.example.budgetsmart2.domain.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Calendar
