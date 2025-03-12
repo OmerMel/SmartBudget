@@ -122,24 +122,37 @@ class HomeViewModel @Inject constructor(
      * Load the financial summary for the current month
      */
     private suspend fun loadFinancialSummary() {
+        // Get transactions for current month/year
         val transactions = transactionRepository.getTransactionsByPeriod(
             userId,
             currentMonth,
             currentYear
         )
 
+        // Get budgets for current month/year
         val budgets = budgetRepository.getBudgets(userId).filter {
             it.month == currentMonth && it.year == currentYear
         }
 
+        // Create a set of categories that have budgets
+        val categoryBudgetMap = budgets.associate { it.categoryId to it.amount }
+
         // Calculate total income, expenses, and balance
         var totalIncome = 0.0
         var totalExpenses = 0.0
+        var trackedExpenses = 0.0
 
         transactions.forEach { transaction ->
             when (transaction.type) {
                 TransactionType.INCOME -> totalIncome += transaction.amount
-                TransactionType.EXPENSE -> totalExpenses += transaction.amount
+                TransactionType.EXPENSE -> {
+                    totalExpenses += transaction.amount
+
+                    // Only count expenses for categories that have a budget
+                    if (categoryBudgetMap.containsKey(transaction.categoryId)) {
+                        trackedExpenses += transaction.amount
+                    }
+                }
             }
         }
 
@@ -148,7 +161,7 @@ class HomeViewModel @Inject constructor(
 
         // Calculate budget used percentage
         val budgetUsedPercentage = if (monthlyBudget > 0) {
-            (totalExpenses / monthlyBudget) * 100
+            (trackedExpenses  / monthlyBudget) * 100
         } else {
             0.0
         }
@@ -159,7 +172,8 @@ class HomeViewModel @Inject constructor(
                 totalExpenses = totalExpenses,
                 balance = totalIncome - totalExpenses,
                 monthlyBudget = monthlyBudget,
-                budgetUsedPercentage = budgetUsedPercentage
+                budgetUsedPercentage = budgetUsedPercentage,
+                budgetedExpenses = trackedExpenses
             )
         )
     }
@@ -169,7 +183,7 @@ class HomeViewModel @Inject constructor(
      */
     private suspend fun loadRecentTransactions() {
         val transactions = transactionRepository.getTransactions(userId)
-            .take(5) // Only get the 5 most recent transactions
+            .take(4) // Only get the 4 most recent transactions
 
         val transactionsWithCategory = mutableListOf<TransactionWithCategory>()
 
