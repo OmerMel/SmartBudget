@@ -80,8 +80,6 @@ class TransactionsFragment : Fragment() {
             transactionsRecyclerView.apply {
                 adapter = transactionAdapter
                 layoutManager = LinearLayoutManager(context)
-                // Optional: Add item decoration for spacing/dividers
-                // addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
         }
     }
@@ -223,10 +221,10 @@ class TransactionsFragment : Fragment() {
         // Show transaction details dialog
         TransactionDetailsDialog.newInstance(transaction) { action, updatedTransaction ->
             when (action) {
-                TransactionDetailsDialog.Action.EDIT -> {
-                    // Handle edit action
-                    viewModel.updateTransaction(updatedTransaction)
-                }
+//                TransactionDetailsDialog.Action.EDIT -> {
+//                    // Handle edit action
+//                    viewModel.updateTransaction(updatedTransaction)
+//                }
                 TransactionDetailsDialog.Action.DELETE -> {
                     // Handle delete action
                     viewModel.deleteTransaction(transaction.transaction.id)
