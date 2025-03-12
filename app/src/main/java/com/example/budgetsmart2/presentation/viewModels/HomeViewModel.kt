@@ -23,7 +23,6 @@ class HomeViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val budgetRepository: BudgetRepository,
     private val categoryRepository: CategoryRepository,
-    private val userRepository: UserRepository
 ) : ViewModel() {
 
     // Financial summary for the current month
@@ -200,20 +199,6 @@ class HomeViewModel @Inject constructor(
         }
 
         _recentTransactions.postValue(transactionsWithCategory)
-    }
-
-    /**
-     * Change the current month for filtering
-     * @param monthOffset The number of months to add/subtract
-     */
-    fun changeMonth(monthOffset: Int) {
-        calendar.set(currentYear, currentMonth, 1)
-        calendar.add(Calendar.MONTH, monthOffset)
-
-        currentMonth = calendar.get(Calendar.MONTH)
-        currentYear = calendar.get(Calendar.YEAR)
-
-        refreshData()
     }
 
     /**
