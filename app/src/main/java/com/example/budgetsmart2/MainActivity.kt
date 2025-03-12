@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         // Handle navigation UI state based on destination changes
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            // You can customize visibility of bottom navigation based on destination if needed
             when (destination.id) {
                 R.id.homeFragment, R.id.budgetFragment, R.id.reportsFragment, R.id.categoryManagementFragment -> {
                     // Show bottom navigation for main screens
