@@ -80,7 +80,7 @@ class BudgetAdapter(
                 // Set budget amount
                 val spent = CurrencyFormatter.format(itemView.context, item.spent)
                 val budget = CurrencyFormatter.format(itemView.context, item.budget.amount)
-                foodBudget.text = "$spent/$budget"
+                foodBudget.text = "$budget/$spent"
 
                 // Set category icon
                 categoryIcon.text = item.category.icon
