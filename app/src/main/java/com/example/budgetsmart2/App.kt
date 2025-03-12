@@ -15,14 +15,11 @@ class App : Application() {
         // Initialize Firebase
         FirebaseApp.initializeApp(this)
 
-        // Configure Firestore settings (optional)
+        // Configure FireStore settings (optional)
         val firestore = FirebaseFirestore.getInstance()
         val settings = FirebaseFirestoreSettings.Builder()
             .setPersistenceEnabled(true) // Enable offline persistence
             .build()
         firestore.firestoreSettings = settings
-
-        // Initialize other libraries or configurations if needed
     }
-
 }
