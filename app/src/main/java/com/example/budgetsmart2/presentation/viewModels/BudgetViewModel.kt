@@ -44,6 +44,9 @@ class BudgetViewModel @Inject constructor(
     private val _budgetPercentage = MutableLiveData<Double>()
     val budgetPercentage: LiveData<Double> = _budgetPercentage
 
+    private val _currentMonthYear = MutableLiveData<String>()
+    val currentMonthYear: LiveData<String> = _currentMonthYear
+
     // Loading state
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -66,6 +69,7 @@ class BudgetViewModel @Inject constructor(
      */
     fun initialize(userId: String) {
         this.userId = userId
+        _currentMonthYear.value = getCurrentMonthYearString()
         loadCategories()
         refreshBudgetData()
     }
@@ -229,6 +233,8 @@ class BudgetViewModel @Inject constructor(
 
         currentMonth = calendar.get(Calendar.MONTH)
         currentYear = calendar.get(Calendar.YEAR)
+
+        _currentMonthYear.value = getCurrentMonthYearString()
 
         refreshBudgetData()
     }

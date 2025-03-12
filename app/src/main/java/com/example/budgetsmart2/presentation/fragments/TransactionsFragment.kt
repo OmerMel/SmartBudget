@@ -39,6 +39,8 @@ class TransactionsFragment : Fragment() {
     // Transactions adapter
     private lateinit var transactionAdapter: TransactionAdapter
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -157,6 +159,11 @@ class TransactionsFragment : Fragment() {
         // Observe transactions
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             updateTransactionsList(transactions)
+        }
+
+        // Observe month display
+        viewModel.currentMonthDisplay.observe(viewLifecycleOwner) { monthYear ->
+            binding.monthDisplay.text = monthYear
         }
 
         // Observe month display

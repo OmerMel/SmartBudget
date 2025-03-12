@@ -124,7 +124,7 @@ class BudgetFragment : Fragment() {
         }
 
         // Observe total budget and spent values
-        viewModel.totalBudget.observe(viewLifecycleOwner) { totalBudget ->
+        viewModel.totalBudget.observe(viewLifecycleOwner) { _ ->
             binding.apply {
                 // Update remaining value in budget summary card
                 val remaining = viewModel.totalRemaining.value ?: 0.0
@@ -139,6 +139,10 @@ class BudgetFragment : Fragment() {
             }
         }
 
+        viewModel.totalRemaining.observe(viewLifecycleOwner) { remaining ->
+            binding.remainingValue.text = CurrencyFormatter.format(requireContext(), remaining)
+        }
+
         viewModel.budgetPercentage.observe(viewLifecycleOwner) { percentage ->
             binding.apply {
                 // Update progress in budget summary card
@@ -148,7 +152,7 @@ class BudgetFragment : Fragment() {
         }
 
         // Observe month display
-        viewModel.getCurrentMonthYearString().let { monthYear ->
+        viewModel.currentMonthYear.observe(viewLifecycleOwner) { monthYear ->
             binding.monthDisplay.text = monthYear
         }
 

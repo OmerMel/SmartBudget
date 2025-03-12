@@ -41,6 +41,9 @@ class TransactionsViewModel @Inject constructor(
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories
 
+    private val _currentMonthDisplay = MutableLiveData<String>()
+    val currentMonthDisplay: LiveData<String> = _currentMonthDisplay
+
     // Current month and year for filtering
     private val calendar = Calendar.getInstance()
     private var currentMonth = calendar.get(Calendar.MONTH)
@@ -63,6 +66,7 @@ class TransactionsViewModel @Inject constructor(
      */
     fun initialize(userId: String) {
         this.userId = userId
+        _currentMonthDisplay.value = getCurrentMonthYearString()
         loadCategories()
         refreshTransactions()
     }
@@ -230,6 +234,8 @@ class TransactionsViewModel @Inject constructor(
 
         currentMonth = calendar.get(Calendar.MONTH)
         currentYear = calendar.get(Calendar.YEAR)
+
+        _currentMonthDisplay.value = getCurrentMonthYearString()
 
         refreshTransactions()
     }
