@@ -14,15 +14,13 @@ import com.example.budgetsmart2.R
 import com.example.budgetsmart2.databinding.FragmentHomeBinding
 import com.example.budgetsmart2.domain.dataClasses.TransactionWithCategory
 import com.example.budgetsmart2.domain.enums.TransactionType
-import com.example.budgetsmart2.presentation.adapters.RecentTransactionAdapter
+import com.example.budgetsmart2.presentation.adapters.TransactionAdapter
 import com.example.budgetsmart2.presentation.dialogs.AddTransactionDialog
 import com.example.budgetsmart2.presentation.viewModels.HomeViewModel
 import com.example.budgetsmart2.utils.CurrencyFormatter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.NumberFormat
-import java.util.*
 
 /**
  * HomeFragment - Main dashboard showing financial summary and recent transactions
@@ -43,7 +41,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
 
     // Recent transactions adapter
-    private lateinit var transactionAdapter: RecentTransactionAdapter
+    private lateinit var transactionAdapter: TransactionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,7 +78,7 @@ class HomeFragment : Fragment() {
      * Set up the RecyclerView for recent transactions
      */
     private fun setupRecyclerView() {
-        transactionAdapter = RecentTransactionAdapter(::onTransactionClicked)
+        transactionAdapter = TransactionAdapter(::onTransactionClicked)
         binding.apply {
             // Set up RecyclerView with the adapter
             val recyclerView = recentTransactionsRecyclerView
@@ -185,9 +183,9 @@ class HomeFragment : Fragment() {
             // Update income amount
             incomesBalanceAmount.text = CurrencyFormatter.format(requireContext(), summary.totalIncome)
 
-            // Update budget progress
+            // Update budget progress - use budgetedExpenses instead of totalExpenses
             budgetPercentage.text = "${summary.budgetUsedPercentage.toInt()}%"
-            budgetProgress.text = "${CurrencyFormatter.format(requireContext(), summary.totalExpenses)} of ${CurrencyFormatter.format(requireContext(), summary.monthlyBudget)}"
+            budgetProgress.text = "${CurrencyFormatter.format(requireContext(), summary.monthlyBudget)} of ${CurrencyFormatter.format(requireContext(), summary.budgetedExpenses)}"
             budgetProgressBar.progress = summary.budgetUsedPercentage.toInt()
         }
     }
