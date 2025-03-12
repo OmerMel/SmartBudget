@@ -9,22 +9,20 @@ import com.example.budgetsmart2.R
 import com.example.budgetsmart2.databinding.ItemTransactionBinding
 import com.example.budgetsmart2.domain.dataClasses.TransactionWithCategory
 import com.example.budgetsmart2.domain.enums.TransactionType
-import java.text.NumberFormat
+import com.example.budgetsmart2.utils.CurrencyFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Adapter for displaying transactions in a RecyclerView
+ * Unified adapter for displaying transactions in a RecyclerView
+ * Can be used for both recent transactions and full transaction list
  * Uses ListAdapter with DiffUtil for efficient updates
  */
 class TransactionAdapter(
     private val onItemClick: (TransactionWithCategory) -> Unit
 ) : ListAdapter<TransactionWithCategory, TransactionAdapter.TransactionViewHolder>(TransactionDiffCallback()) {
 
-    // Currency formatter for displaying monetary values
-    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US)
-
-    // Date formatter for displaying transaction dates
+    // Date formatters for displaying transaction dates
     private val dateFormatter = SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault())
     private val todayDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -84,15 +82,17 @@ class TransactionAdapter(
 
                 // Format amount based on transaction type
                 val amount = item.transaction.amount
-                val formattedAmount = if (item.transaction.type == TransactionType.EXPENSE) {
-                    "-${currencyFormatter.format(amount)}"
+                val isExpense = item.transaction.type == TransactionType.EXPENSE
+
+                // Format the amount with currency and sign using CurrencyFormatter utility
+                transactionAmount1.text = if (isExpense) {
+                    CurrencyFormatter.formatWithSign(itemView.context, -amount)
                 } else {
-                    "+${currencyFormatter.format(amount)}"
+                    CurrencyFormatter.formatWithSign(itemView.context, amount, true)
                 }
-                transactionAmount1.text = formattedAmount
 
                 // Set text color based on transaction type
-                val colorRes = if (item.transaction.type == TransactionType.EXPENSE) {
+                val colorRes = if (isExpense) {
                     R.color.expense
                 } else {
                     R.color.income
@@ -127,18 +127,8 @@ class TransactionAdapter(
                 val backgroundColorRes = item.category.color
                 transactionIconBg1.setCardBackgroundColor(itemView.context.getColor(backgroundColorRes))
 
-                // Set the icon
-                val iconDrawable = if (item.transaction.type == TransactionType.EXPENSE) {
-                    R.drawable.ic_minus
-                } else {
-                    R.drawable.ic_plus
-                }
-
-                // Set the category icon (emoji) instead of the drawable
-                if (transactionIcon.context != null) {
-                    // Replace the ImageView with a TextView for the emoji
-                    transactionIcon.text = item.category.icon
-                }
+                // Set the category icon (emoji)
+                transactionIcon.text = item.category.icon
             }
         }
     }
