@@ -101,5 +101,4 @@ com.example.budgetsmart2/
 ## Acknowledgements
 
 - [Firebase](https://firebase.google.com/)
-- [Android Jetpack](https://developer.android.com/jetpack)
 - [Material Design](https://material.io/develop/android)
